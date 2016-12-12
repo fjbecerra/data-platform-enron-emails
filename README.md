@@ -37,10 +37,12 @@ Sinks the results in Cassandra, using the Cassandra connector for Spark.
 Contains analitics tables. 
 
 **mail** table. Contains the mail details + number of words within a message in real time
-**recipients_state**. Contains all the existing unique recipients + their total relevancy regardless of order, in real time.
-**enron_mail_word_avg** Avarage length, in words, of the emails. 
-**recipients_total** top 100 recipient email addresses
 
+**recipients_state**. Contains all the existing unique recipients + their total relevancy regardless of order, in real time.
+
+**enron_mail_word_avg** Avarage length, in words, of the emails. 
+
+**recipients_total** top 100 recipient email addresses
 
 ***
 
