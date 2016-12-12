@@ -38,11 +38,23 @@ Contains analitics tables.
 
 **mail** table. Contains the mail details + number of words within a message in real time
 
+```
+select * from enron.mail;
+```
+
 **recipients_state**. Contains all the existing unique recipients + their total relevancy regardless of order, in real time.
+```
+select * from enron.recipients_state;
+```
 
-**enron_mail_word_avg** Avarage length, in words, of the emails. 
-
+**mail_word_avg** Avarage length, in words, of the emails.
+```
+select * from enron.mail_word_avg;
+```
 **recipients_total** top 100 recipient email addresses
+```
+select * from enron.recipients_total;
+```
 
 ***
 
