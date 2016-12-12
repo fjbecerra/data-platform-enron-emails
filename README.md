@@ -1,6 +1,6 @@
-# Streaming Data Platform - Enron Emails V2 xml # 
+# Streaming Data Platform - Enron Emails V2 xml
 
-![ScreenShot](http://aegisdatalabs.media.global.loc:81/gitlab/dadl/dadlroot/raw/dev/dataflow-operators/img/img2.png)
+![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/data-platform-stack.PNG)
 
 ***
 
@@ -16,13 +16,11 @@ Files are processed **asynchronously**, taking advantage of the Hazelcast's **Ex
 
 Kafka streams Avro files. Each Avro represents an single email details + body message.
 
-Schema Registry, *tracks Avro schema versions*. UI. http://<ADVERTISER HOST>:3030
+Schema Registry, *tracks Avro schema versions*. UI. http://ADVERTISER-IP-HOST>:3030
 
 ***
 
-- **ENRON-CONSUMER on SPARK. (1 batch, 1 stream jobs)**
-
-Batch job creates Cassandra table.
+- **ENRON-CONSUMER on SPARK.**
 
 The streaming job running on Spark, feeds messages from Kafka. It uses the spark streaming api, gets rid of the .**TXT** attachments.
 
@@ -38,14 +36,35 @@ Sinks the results in Cassandra, using the Cassandra connector for Spark.
 
 Contains analitics tables. 
 
-Mail table. Contains the mail details + number of words within a message.
-Recipient_order_by_relevant. Contains all the existing unique recipients + their total relevancy.
+**mail** table. Contains the mail details + number of words within a message in real time
+
+```
+select * from enron.mail;
+```
+
+**recipients_state**. Contains all the existing unique recipients + their total relevancy regardless of order, in real time.
+```
+select * from enron.recipients_state;
+```
+
+**mail_word_avg** Avarage length, in words, of the emails.
+```
+select * from enron.mail_word_avg;
+```
+**recipients_total** top 100 recipient email addresses
+```
+select * from enron.recipients_total;
+```
 
 ***
 
 - **ZEPPELIN**
 
 Data visualization, allowing business users, developers, analytics run their scripts.
+
+To link to cassandra, go to **Interpreter** -> **Cassandra**, and set in **Host** your host ip.
+
+To get started, **create a note**, click on the **save button**, in order to have available those interpreters. To start query, type **%cassandra** and underneath, the query.
 
 ***
 
@@ -86,7 +105,7 @@ Login as **Root** user. Pay attention the **full path of your public/private key
 ---
 - **Editing docker-compose.yml**.
 
-1.Avro schema registry needs an __advertiser host__, so, we replace the value of all the environment variables called **KAFKA_SCHEMA_REGISTRY** to **http://<host machine ip >:8081**
+1.Avro schema registry needs an __advertiser host__, so, we replace the value of all the environment variables called **KAFKA_SCHEMA_REGISTRY** to **http://ADVERTISER-IP-HOST:8081**
  
 2.For enron-connector to read files, in **enron-connector container -> volumes**, we replace the path prefix **<target local folder>:/enron/input** to the target local folder (you configured this at the sshfs step). 
  
@@ -121,24 +140,20 @@ $ ./start-data-platform.sh
 ---
 ###Results
 
-Execute job to calculate the result once the data has landed to cassandra. **Update your local folder to be mounted if needed**
+Execute this job to calculate the result once the data has landed to cassandra. **Update your local folder to be mounted if needed**
 
 
 ```
 docker exec -i -t spark-master bash spark-submit --class com.fjbecerra.sql.AggregationJob --master local[*] --driver-memory 1G --executor-memory 1G /app/enron-consumer-0.0.1-SNAPSHOT-jar-with-dependencies.jar 
 ```
 
-Quetion 1.
+Quetion 1. Average length, in words, of the emails
 
-select avg(words_within_body) from enron.mail;
-
-![ScreenShot](http://aegisdatalabs.media.global.loc:81/gitlab/dadl/dadlroot/raw/dev/dataflow-operators/img/img2.png)
+![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/avg.PNG)
 
 
-Question 2.
+Question 2. Top 100 recipient email addresses
 
-select recipient_id, relevant from enron.recipients_order_by_relevant limit 100;
-
-![ScreenShot](http://aegisdatalabs.media.global.loc:81/gitlab/dadl/dadlroot/raw/dev/dataflow-operators/img/img2.png)
+![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/topRelevant.png)
 
 
