@@ -16,7 +16,7 @@ Files are processed **asynchronously**, taking advantage of the Hazelcast's **Ex
 
 Kafka streams Avro files. Each Avro represents an single email details + body message.
 
-Schema Registry, *tracks Avro schema versions*. UI. http://<ADVERTISER HOST>:3030
+Schema Registry, *tracks Avro schema versions*. UI. http://ADVERTISER-IP-HOST>:3030
 
 ***
 
