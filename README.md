@@ -50,6 +50,10 @@ Contains analitics tables.
 
 Data visualization, allowing business users, developers, analytics run their scripts.
 
+To link to cassandra, go to **Interpreter** -> **Cassandra**, and set in **Host** your host ip.
+
+To get started, **create a note**, click on the **save button**, in order to have available those interpreters. To start query, type **%cassandra** and underneath, the query.
+
 ***
 
 ### Requiremnts:
