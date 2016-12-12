@@ -20,9 +20,7 @@ Schema Registry, *tracks Avro schema versions*. UI. http://<ADVERTISER HOST>:303
 
 ***
 
-- **ENRON-CONSUMER on SPARK. (1 batch, 1 stream jobs)**
-
-Batch job creates Cassandra table.
+- **ENRON-CONSUMER on SPARK.**
 
 The streaming job running on Spark, feeds messages from Kafka. It uses the spark streaming api, gets rid of the .**TXT** attachments.
 
@@ -38,8 +36,11 @@ Sinks the results in Cassandra, using the Cassandra connector for Spark.
 
 Contains analitics tables. 
 
-Mail table. Contains the mail details + number of words within a message.
-Recipient_order_by_relevant. Contains all the existing unique recipients + their total relevancy.
+**mail** table. Contains the mail details + number of words within a message in real time
+**recipients_state**. Contains all the existing unique recipients + their total relevancy regardless of order, in real time.
+**enron_mail_word_avg** Avarage length, in words, of the emails. 
+**recipients_total** top 100 recipient email addresses
+
 
 ***
 
@@ -121,7 +122,7 @@ $ ./start-data-platform.sh
 ---
 ###Results
 
-Execute job to calculate the result once the data has landed to cassandra. **Update your local folder to be mounted if needed**
+Execute this job to calculate the result once the data has landed to cassandra. **Update your local folder to be mounted if needed**
 
 
 ```
