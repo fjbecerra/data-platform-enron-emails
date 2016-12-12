@@ -1,0 +1,72 @@
+cassandra:
+  image: cassandra:2.2
+  ports:
+   - "9042:9042"
+  container_name: "cassandra"
+
+kafka:
+  image: landoop/fast-data-dev
+  ports:
+   - "2181:2181"
+   - "3030:3030"
+   - "8081:8081"
+   - "8082:8082"
+   - "8083:8083"
+   - "9092:9092"
+  environment: 
+    ADV_HOST: 192.168.1.5
+  container_name: "kafka" 
+
+spark-master:
+  image: sequenceiq/spark:1.6.0
+  mem_limit: 2000000000
+  ports:
+   - "8088:8088"
+   - "8042:8042"
+   - "5005:5005"
+   - "4040:4040"   
+  links:
+   - cassandra
+   - kafka
+  volumes:
+   - ./enron-consumer/target:/app
+  environment:
+    KAFKA_BROKERS: kafka:9092
+    KAFKA_TOPICS: enron-mails
+    KAFKA_SCHEMA_REGISTRY: http://192.168.1.5:8081
+    KAFKA_OFFSET_RESET: smallest
+    KAFKA_FETCH_BYTES: 10000000
+    CASSANDRA_HOST: cassandra
+  command: export SPARK_JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 && spark-submit --class com.fjbecerra.initialize.EnronInizializer --driver-memory 1G --executor-memory 1G /app/enron-consumer-0.0.1-SNAPSHOT-jar-with-dependencies.jar \
+     && spark-submit --class com.fjbecerra.event.EnronEventStreamJob --driver-memory 1G --executor-memory 1G /app/enron-consumer-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+  container_name: "spark-master"
+  
+
+enron-connector:
+  image: frolvlad/alpine-oraclejdk8:slim
+  ports:
+   - "8086:8080"
+  links:
+   - kafka
+  volumes:
+    - ./enron-connector/target:/app
+    - /enron:/enron/input
+  environment:
+    KAFKA_BROKERS: kafka:9092
+    KAFKA_TOPICS: enron-mails
+    KAFKA_SCHEMA_REGISTRY: http://192.168.1.5:8081
+    KAFKA_BATCH_SIZE: 10000000
+    KAFKA_REQUEST_SIZE: 10000000    
+    KAFKA_MESSAGE_MAX_SIZE: 10000000
+    ENRON_INPUT_FILES: enron/input
+  command: java -jar /app/enron-connector-0.0.1-SNAPSHOT.jar
+  container_name: "enron-connector"
+   
+zeppelin:
+   image: richardkdrew/zeppelin 
+   ports:
+    - "8080:8080"
+    - "8085:8081"
+   links:
+    - cassandra   
+   container_name: zeppelin

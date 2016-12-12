@@ -1,0 +1,14 @@
+@version("1.0.0")
+@namespace("com.fjbecerra.mailrecord")
+protocol MailRecordProtocol {
+  record MailRecord {
+    string uuid;
+    union { null, string } from;
+    union{null, array<string>} to = null;
+    union{null, array<string>} cc = null;
+    union{null, array<string>} bcc = null;
+    union { null, long } dateUtcEpoch;
+    union { null, string } subject;
+    union { null, string } body;
+  }
+}
