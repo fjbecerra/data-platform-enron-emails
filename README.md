@@ -1,4 +1,4 @@
-# Streaming Data Platform - Enron Emails V2 xml # 
+# Streaming Data Platform - Enron Emails V2 xml
 
 ![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/data-platform-stack.PNG)
 
