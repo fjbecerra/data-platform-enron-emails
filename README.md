@@ -1,6 +1,6 @@
 # Streaming Data Platform - Enron Emails V2 xml # 
 
-![ScreenShot](http://aegisdatalabs.media.global.loc:81/gitlab/dadl/dadlroot/raw/dev/dataflow-operators/img/img2.png)
+![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/data-platform-stack.PNG)
 
 ***
 
@@ -132,13 +132,13 @@ Quetion 1.
 
 select avg(words_within_body) from enron.mail;
 
-![ScreenShot](http://aegisdatalabs.media.global.loc:81/gitlab/dadl/dadlroot/raw/dev/dataflow-operators/img/img2.png)
+![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/avg.PNG)
 
 
 Question 2.
 
 select recipient_id, relevant from enron.recipients_order_by_relevant limit 100;
 
-![ScreenShot](http://aegisdatalabs.media.global.loc:81/gitlab/dadl/dadlroot/raw/dev/dataflow-operators/img/img2.png)
+![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/topRelevant.png)
 
 
