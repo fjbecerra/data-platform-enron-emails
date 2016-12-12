@@ -93,7 +93,7 @@ Login as **Root** user. Pay attention the **full path of your public/private key
 ---
 - **Editing docker-compose.yml**.
 
-1.Avro schema registry needs an __advertiser host__, so, we replace the value of all the environment variables called **KAFKA_SCHEMA_REGISTRY** to **http://<host machine ip >:8081**
+1.Avro schema registry needs an __advertiser host__, so, we replace the value of all the environment variables called **KAFKA_SCHEMA_REGISTRY** to **http://ADVERTISER-IP-HOST:8081**
  
 2.For enron-connector to read files, in **enron-connector container -> volumes**, we replace the path prefix **<target local folder>:/enron/input** to the target local folder (you configured this at the sshfs step). 
  
