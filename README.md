@@ -128,16 +128,12 @@ Execute job to calculate the result once the data has landed to cassandra. **Upd
 docker exec -i -t spark-master bash spark-submit --class com.fjbecerra.sql.AggregationJob --master local[*] --driver-memory 1G --executor-memory 1G /app/enron-consumer-0.0.1-SNAPSHOT-jar-with-dependencies.jar 
 ```
 
-Quetion 1.
-
-select avg(words_within_body) from enron.mail;
+Quetion 1. Average length, in words, of the emails
 
 ![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/avg.PNG)
 
 
-Question 2.
-
-select recipient_id, relevant from enron.recipients_order_by_relevant limit 100;
+Question 2. Top 100 recipient email addresses
 
 ![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/topRelevant.png)
 
