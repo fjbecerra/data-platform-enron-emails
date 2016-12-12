@@ -154,6 +154,6 @@ Quetion 1. Average length, in words, of the emails
 
 Question 2. Top 100 recipient email addresses
 
-![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/topRelevant.png)
+![ScreenShot](https://github.com/fjbecerra/data-platform-enron-emails/blob/master/images/top100relevant.PNG)
 
 
