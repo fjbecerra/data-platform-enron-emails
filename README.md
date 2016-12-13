@@ -60,6 +60,8 @@ select * from enron.recipients_total;
 
 - **ZEPPELIN**
 
+http://IP-HOST:8080
+
 Data visualization, allowing business users, developers, analytics run their scripts.
 
 To link to cassandra, go to **Interpreter** -> **Cassandra**, and set in **Host** your host ip.
@@ -84,7 +86,7 @@ To get started, **create a note**, click on the **save button**, in order to hav
 
 ### Configuration:
 
-- **Mounting a romete system to a local folder. - Description for AWS -**
+- **Mounting a remote system to a local folder. - Description for AWS -**
 
 1.Mount an AWS ESB and restore the Enron Emails Snapshop. 
  
