@@ -88,9 +88,9 @@ To get started, **create a note**, click on the **save button**, in order to hav
 
 - **Mounting a remote system to a local folder. - Description for AWS -**
 
-1.Mount an AWS ESB and restore the Enron Emails Snapshop. 
+1.Mount an AWS ESB and restore the Enron Emails Snapshot. 
  
-2.In order to read those files in ESB we mount a folder in our local host remotely using sshdf.
+2.In order to read those files in ESB we mount a folder in our local host remotely using sshfs.
  
 ```
 $ sudo apt-get install sshfs
