@@ -1,10 +1,12 @@
-cassandra:
+version: '2'
+services:
+ cassandra:
   image: cassandra:2.2
   ports:
    - "9042:9042"
   container_name: "cassandra"
 
-kafka:
+ kafka:
   image: landoop/fast-data-dev
   ports:
    - "2181:2181"
@@ -15,17 +17,17 @@ kafka:
    - "9092:9092"
   environment: 
     ADV_HOST: 192.168.1.5
-  container_name: "kafka" 
+  container_name: "kafka"
 
-spark-master:
+ spark-master:
   image: sequenceiq/spark:1.6.0
   mem_limit: 2000000000
   ports:
    - "8088:8088"
    - "8042:8042"
    - "5005:5005"
-   - "4040:4040"   
-  links:
+   - "4040:4040"
+  depends_on:
    - cassandra
    - kafka
   volumes:
@@ -42,11 +44,11 @@ spark-master:
   container_name: "spark-master"
   
 
-enron-connector:
+ enron-connector:
   image: frolvlad/alpine-oraclejdk8:slim
   ports:
    - "8086:8080"
-  links:
+  depends_on:
    - kafka
   volumes:
     - ./enron-connector/target:/app
@@ -62,11 +64,11 @@ enron-connector:
   command: java -jar /app/enron-connector-0.0.1-SNAPSHOT.jar
   container_name: "enron-connector"
    
-zeppelin:
+ zeppelin:
    image: richardkdrew/zeppelin 
    ports:
     - "8080:8080"
     - "8085:8081"
-   links:
+   depends_on:
     - cassandra   
    container_name: zeppelin
