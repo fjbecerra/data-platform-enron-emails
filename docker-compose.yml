@@ -16,7 +16,7 @@ services:
    - "8083:8083"
    - "9092:9092"
   environment: 
-    ADV_HOST: 192.168.1.5
+    ADV_HOST: 10.14.8.38
   container_name: "kafka"
 
  spark-master:
@@ -35,7 +35,7 @@ services:
   environment:
     KAFKA_BROKERS: kafka:9092
     KAFKA_TOPICS: enron-mails
-    KAFKA_SCHEMA_REGISTRY: http://192.168.1.5:8081
+    KAFKA_SCHEMA_REGISTRY: http://10.14.8.38:8081
     KAFKA_OFFSET_RESET: smallest
     KAFKA_FETCH_BYTES: 10000000
     CASSANDRA_HOST: cassandra
@@ -50,13 +50,15 @@ services:
    - "8086:8080"
   depends_on:
    - kafka
+   - logstash
   volumes:
     - ./enron-connector/target:/app
     - /enron:/enron/input
+    - /tmp/
   environment:
     KAFKA_BROKERS: kafka:9092
     KAFKA_TOPICS: enron-mails
-    KAFKA_SCHEMA_REGISTRY: http://192.168.1.5:8081
+    KAFKA_SCHEMA_REGISTRY: http://10.14.8.38:8081
     KAFKA_BATCH_SIZE: 10000000
     KAFKA_REQUEST_SIZE: 10000000    
     KAFKA_MESSAGE_MAX_SIZE: 10000000
@@ -72,3 +74,34 @@ services:
    depends_on:
     - cassandra   
    container_name: zeppelin
+
+ elasticsearch:
+    image: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"    
+    environment:
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"    
+    container_name: elasticsearch
+
+ kibana:
+   image: kibana  
+   ports:
+     - "5601:5601"   
+   depends_on:
+     - elasticsearch
+   environment:
+    ELASTICSEARCH_URL: http://10.14.8.38:9200
+   container_name: kibana
+
+ logstash:
+   build: logstash
+   command: logstash -f /conf/logstash-spring-boot.conf
+   ports:
+     - "5514:5514"   
+   depends_on:
+     - elasticsearch
+   container_name: logstash
+  
+
+
